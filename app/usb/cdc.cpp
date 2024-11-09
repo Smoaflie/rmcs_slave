@@ -1,13 +1,15 @@
 #include "cdc.hpp"
 
 #include "app/can/can.hpp"
+#include "app/logger/logger.hpp"
 #include "app/uart/uart.hpp"
 #include "app/usb/field.hpp"
 
 namespace usb {
 
 inline int8_t hal_cdc_init_callback() {
-    USBD_CDC_SetRxBuffer(&hUsbDeviceFS, reinterpret_cast<uint8_t*>(Cdc::receive_buffer_));
+    USBD_CDC_SetRxBuffer(&hUsbDeviceHS, reinterpret_cast<uint8_t*>(Cdc::receive_buffer_));
+    logger::Logger().printf("[INFO] Init success: hal_cdc_init. \n");
     return USBD_OK;
 }
 
@@ -16,9 +18,9 @@ inline int8_t hal_cdc_deinit_callback() { return USBD_OK; }
 inline int8_t hal_cdc_control_callback(uint8_t command, uint8_t* buffer, uint16_t length) {
     return USBD_OK;
 }
-
 // NOLINTNEXTLINE(readability-non-const-parameter) because bullshit HAL api.
 inline int8_t hal_cdc_receive_callback(uint8_t* buffer, uint32_t* length) {
+    logger::Logger().printf("[INFO] cdc receive：%s. \n",buffer);
     auto iterator = reinterpret_cast<std::byte*>(buffer);
     assert(iterator == Cdc::receive_buffer_);
 
@@ -52,18 +54,19 @@ inline int8_t hal_cdc_receive_callback(uint8_t* buffer, uint32_t* length) {
     }
     assert(iterator == sentinel); // TODO
 
-    USBD_CDC_SetRxBuffer(&hUsbDeviceFS, buffer);
-    USBD_CDC_ReceivePacket(&hUsbDeviceFS);
+    USBD_CDC_SetRxBuffer(&hUsbDeviceHS, buffer);
+    USBD_CDC_ReceivePacket(&hUsbDeviceHS);
     return USBD_OK;
 }
 
 inline int8_t
     hal_cdc_transmit_complete_callback(uint8_t* buffer, uint32_t* length, uint8_t endpoint_num) {
+    logger::Logger().printf("[INFO] cdc transmit success: %s. \n", buffer);
     return USBD_OK;
 }
 
 extern "C" {
-USBD_CDC_ItfTypeDef USBD_Interface_fops_FS = {
+USBD_CDC_ItfTypeDef USBD_Interface_fops_HS = {
     hal_cdc_init_callback, hal_cdc_deinit_callback, hal_cdc_control_callback,
     hal_cdc_receive_callback, hal_cdc_transmit_complete_callback};
 }

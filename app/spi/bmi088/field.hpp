@@ -1,5 +1,5 @@
 #pragma once
-
+#ifdef CHOSSE_IMU_OVER_UART5
 #include "app/usb/field.hpp"
 
 namespace spi::bmi088 {
@@ -21,3 +21,4 @@ struct __attribute__((packed)) FieldHeader {
 };
 
 } // namespace spi::bmi088
+#endif

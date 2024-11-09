@@ -5,7 +5,7 @@
 extern "C" {
 
 void HAL_SPI_TxRxCpltCallback(SPI_HandleTypeDef* hspi) {
-    if (hspi == &hspi1) {
+    if (hspi == &hspi2) {
         if (auto spi = spi::spi1.try_get())
             spi->transmit_receive_callback();
     }

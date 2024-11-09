@@ -12,10 +12,10 @@ void HAL_UARTEx_RxEventCallback(UART_HandleTypeDef* hal_uart_handle, uint16_t si
     if (hal_uart_handle == &huart1) {
         uart_lazy = &uart::uart2;
         field_id  = usb::field::StatusId::UART2_;
-    } else if (hal_uart_handle == &huart3) {
+    } else if (hal_uart_handle == &huart10) {
         uart_lazy = &uart::uart_dbus;
         field_id  = usb::field::StatusId::UART3_;
-    } else if (hal_uart_handle == &huart6) {
+    } else if (hal_uart_handle == &huart5) {
         uart_lazy = &uart::uart1;
         field_id  = usb::field::StatusId::UART1_;
     } else {

@@ -1,4 +1,5 @@
 #pragma once
+#ifdef CHOSSE_IMU_OVER_UART5
 
 #include <cassert>
 #include <cstdint>
@@ -192,3 +193,4 @@ private:
 inline constinit Gyroscope::Lazy gyroscope(&spi1);
 
 } // namespace spi::bmi088
+#endif

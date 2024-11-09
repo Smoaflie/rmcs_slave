@@ -11,7 +11,7 @@ class Logger {
 public:
     using Lazy = utility::Lazy<Logger>;
 
-    Logger() { SEGGER_RTT_Init(); }
+    Logger() { }
 
     // NOLINTNEXTLINE(readability-convert-member-functions-to-static)
     int printf(const char* fmt, ...) {

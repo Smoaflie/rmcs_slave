@@ -19,20 +19,23 @@ App::App() = default;
     auto& cdc       = *usb::cdc;
     auto& can1      = *can::can1;
     auto& can2      = *can::can2;
+    auto& can3      = *can::can3;
     auto& uart1     = *uart::uart1;
     auto& uart2     = *uart::uart2;
     auto& uart_dbus = *uart::uart_dbus;
-    auto& accel     = *spi::bmi088::accelerometer;
-    auto& gyro      = *spi::bmi088::gyroscope;
+    // auto& accel     = *spi::bmi088::accelerometer;
+    // auto& gyro      = *spi::bmi088::gyroscope;
 
-    (void)accel;
-    (void)gyro;
-
+    // (void)accel;
+    // (void)gyro;
+    
     while (true) {
         cdc.try_transmit();
         can1.try_transmit();
         cdc.try_transmit();
         can2.try_transmit();
+        cdc.try_transmit();
+        can3.try_transmit();
         cdc.try_transmit();
         uart1.try_transmit();
         cdc.try_transmit();

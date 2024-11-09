@@ -7,7 +7,7 @@
   ******************************************************************************
   * @attention
   *
-  * Copyright (c) 2023 STMicroelectronics.
+  * Copyright (c) 2024 STMicroelectronics.
   * All rights reserved.
   *
   * This software is licensed under terms that can be found in the LICENSE file
@@ -27,7 +27,7 @@ extern "C" {
 #endif
 
 /* Includes ------------------------------------------------------------------*/
-#include "stm32f4xx_hal.h"
+#include "stm32h7xx_hal.h"
 
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
@@ -57,28 +57,21 @@ void AppEntry(void);
 /* USER CODE END EFP */
 
 /* Private defines -----------------------------------------------------------*/
-#define SPI1_MISO_Pin GPIO_PIN_4
-#define SPI1_MISO_GPIO_Port GPIOB
-#define SPI1_SCK_Pin GPIO_PIN_3
-#define SPI1_SCK_GPIO_Port GPIOB
-#define LED_R_Pin GPIO_PIN_12
-#define LED_R_GPIO_Port GPIOH
-#define LED_G_Pin GPIO_PIN_11
-#define LED_G_GPIO_Port GPIOH
-#define LED_B_Pin GPIO_PIN_10
-#define LED_B_GPIO_Port GPIOH
-#define CS1_ACCEL_Pin GPIO_PIN_4
-#define CS1_ACCEL_GPIO_Port GPIOA
-#define INT1_ACC_Pin GPIO_PIN_4
-#define INT1_ACC_GPIO_Port GPIOC
-#define INT1_ACC_EXTI_IRQn EXTI4_IRQn
-#define INT1_GYRO_Pin GPIO_PIN_5
-#define INT1_GYRO_GPIO_Port GPIOC
-#define INT1_GYRO_EXTI_IRQn EXTI9_5_IRQn
-#define SPI1_MOSI_Pin GPIO_PIN_7
-#define SPI1_MOSI_GPIO_Port GPIOA
-#define CS1_GYRO_Pin GPIO_PIN_0
-#define CS1_GYRO_GPIO_Port GPIOB
+#define Power_5V_EN_Pin GPIO_PIN_15
+#define Power_5V_EN_GPIO_Port GPIOC
+#define Z_limit_detect_Pin GPIO_PIN_2
+#define Z_limit_detect_GPIO_Port GPIOA
+#define Z_limit_detect_EXTI_IRQn EXTI2_IRQn
+#define relay_contro_Pin GPIO_PIN_9
+#define relay_contro_GPIO_Port GPIOE
+#define redLight_detect_Pin GPIO_PIN_13
+#define redLight_detect_GPIO_Port GPIOE
+#define KEY_Pin GPIO_PIN_15
+#define KEY_GPIO_Port GPIOA
+#define airpump_linear_Pin GPIO_PIN_0
+#define airpump_linear_GPIO_Port GPIOE
+#define airpump_arm_Pin GPIO_PIN_1
+#define airpump_arm_GPIO_Port GPIOE
 
 /* USER CODE BEGIN Private defines */
 
