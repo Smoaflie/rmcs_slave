@@ -22,6 +22,7 @@ App::App() = default;
     auto& can3      = *can::can3;
     auto& uart1     = *uart::uart1;
     auto& uart2     = *uart::uart2;
+    auto& uart3     = *uart::uart3;
     auto& uart_dbus = *uart::uart_dbus;
     // auto& accel     = *spi::bmi088::accelerometer;
     // auto& gyro      = *spi::bmi088::gyroscope;
@@ -40,6 +41,8 @@ App::App() = default;
         uart1.try_transmit();
         cdc.try_transmit();
         uart2.try_transmit();
+        cdc.try_transmit();
+        uart3.try_transmit();
         cdc.try_transmit();
         uart_dbus.try_transmit();
     }

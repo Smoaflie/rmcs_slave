@@ -6,21 +6,17 @@ void HAL_UARTEx_RxEventCallback(UART_HandleTypeDef* hal_uart_handle, uint16_t si
     if (__HAL_UART_GET_FLAG(hal_uart_handle, UART_FLAG_IDLE))
         return;
 
-    uart::Uart::Lazy* uart_lazy;
-    usb::field::StatusId field_id;
+    uart::Uart::Lazy* uart_lazy = nullptr;
+    usb::field::StatusId field_id = usb::field::StatusId::RESERVED_;
 
-    if (hal_uart_handle == &huart1) {
-        uart_lazy = &uart::uart2;
-        field_id  = usb::field::StatusId::UART2_;
-    } else if (hal_uart_handle == &huart10) {
-        uart_lazy = &uart::uart_dbus;
-        field_id  = usb::field::StatusId::UART3_;
-    } else if (hal_uart_handle == &huart5) {
-        uart_lazy = &uart::uart1;
-        field_id  = usb::field::StatusId::UART1_;
-    } else {
-        return;
+    for (auto& uart_info : uart::uart_map){
+        if (hal_uart_handle == uart_info.uart->hal_uart_handle_) {
+            uart_lazy = &uart_info.uart;
+            field_id  = uart_info.field_id;
+            break;
+        }
     }
+    if (uart_lazy == nullptr || field_id == usb::field::StatusId::RESERVED_)   return;
 
     if (auto uart = uart_lazy->try_get()) {
         if (auto cdc = usb::cdc.try_get()) {

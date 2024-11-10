@@ -7,6 +7,7 @@
 
 #include <usart.h>
 
+#include "app/logger/logger.hpp"
 #include "app/usb/field.hpp"
 #include "app/usb/interrupt_safe_buffer.hpp"
 #include "utility/lazy.hpp"
@@ -25,6 +26,10 @@ public:
             HAL_UARTEx_ReceiveToIdle_IT(
                 hal_uart_handle_, reinterpret_cast<uint8_t*>(receive_buffer_), max_receive_size_)
             == HAL_OK);
+        auto huart_idx = ((hal_uart_handle == &huart1) ? 1 : 
+                        (hal_uart_handle == &huart7) ? 2 :
+                        (hal_uart_handle == &huart10) ? 3 : 5);
+        logger::Logger().printf("[INFO] Init success: huart%d.\n", huart_idx);
     }
 
     bool read_buffer_write_device(std::byte*& buffer) {
@@ -101,6 +106,10 @@ private:
             buffer += size;
         }
 
+        // Because receive_buffer_ does not set to zero, the data is inaccurate
+        logger::Logger().printf("[DEBUG] UART%d success fetch date: %s \n", 
+                                static_cast<int>(field_id) - 4, 
+                                reinterpret_cast<const char*>(receive_buffer_));
         assert(
             HAL_UARTEx_ReceiveToIdle_IT(
                 hal_uart_handle_, reinterpret_cast<uint8_t*>(receive_buffer_), max_receive_size_)
@@ -126,8 +135,22 @@ private:
     std::atomic<uint8_t> buffer_writing_ = 0;
 };
 
-inline constinit Uart::Lazy uart1{&huart5, 15};
-inline constinit Uart::Lazy uart2{&huart1, 15};
-inline constinit Uart::Lazy uart_dbus{&huart10, 31};
+
+
+inline constinit Uart::Lazy uart1{&huart1, 15};
+inline constinit Uart::Lazy uart2{&huart7, 15};
+inline constinit Uart::Lazy uart3{&huart10, 15};
+inline constinit Uart::Lazy uart_dbus{&huart5, 31};
+
+struct UartMap{
+    uart::Uart::Lazy& uart;
+    usb::field::StatusId field_id;
+};
+inline constinit UartMap uart_map[] = {
+    {uart::uart1, usb::field::StatusId::UART1_},
+    {uart::uart2, usb::field::StatusId::UART2_},
+    {uart::uart3, usb::field::StatusId::UART3_},
+    {uart::uart_dbus, usb::field::StatusId::UART6_},
+};
 
 } // namespace uart
