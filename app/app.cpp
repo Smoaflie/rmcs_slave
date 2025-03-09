@@ -36,9 +36,13 @@ App::App() {
         usb::cdc->try_transmit();
         can::can2->try_transmit();
         usb::cdc->try_transmit();
+        can::can3->try_transmit();
+        usb::cdc->try_transmit();
         uart::uart1->try_transmit();
         usb::cdc->try_transmit();
         uart::uart2->try_transmit();
+        usb::cdc->try_transmit();
+        uart::uart3->try_transmit();
         usb::cdc->try_transmit();
         uart::uart_dbus->try_transmit();
     }
